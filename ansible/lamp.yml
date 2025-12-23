@@ -1,0 +1,296 @@
+---
+- name: Install LAMP stack on Ubuntu 24.04
+  hosts: all
+  become: yes
+  vars:
+    mysql_root_password: "root"  # Change this to a secure password
+    apache_sites:
+      - corp-it.iconic-intl.com
+      - corp-it.iconic-intl.com-le-ssl
+  pre_tasks:
+    - name: Check Ansible version is 2.15.x
+      assert:
+        that:
+          - ansible_version.full is version('2.15.0', '>=')
+          - ansible_version.full is version('2.16.0', '<')
+        fail_msg: >
+          "This playbook requires Ansible 2.15.x. You are running version {{ ansible_version.full }}."
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Set locale for server
+      lineinfile:
+        path: /etc/default/locale
+        regexp: '^{{ item.key }}='
+        line: "{{ item.key }}={{ item.value }}"
+        backup: yes
+      loop:
+        - { key: 'LANG', value: 'en_US.UTF-8' }
+        - { key: 'LANGUAGE', value: 'en_US.UTF-8' }
+        - { key: 'LC_ALL', value: 'en_US.UTF-8' }
+
+    - name: Set locale for root user
+      lineinfile:
+        path: /root/.bashrc
+        regexp: '^export {{ item.key }}\s*='
+        line: "export {{ item.key }}={{ item.value }}"
+        backup: yes
+      loop:
+        - { key: 'LANG', value: 'en_US.UTF-8' }
+        - { key: 'LANGUAGE', value: 'en_US.UTF-8' }
+        - { key: 'LC_ALL', value: 'en_US.UTF-8' }
+
+    - name: Check if swap is already enabled
+      command: swapon --show
+      register: swap_status
+      changed_when: false
+
+    - name: Create swap file (2G) if no swap is active
+      command: fallocate -l 2G /swapfile
+      when: swap_status.stdout == ""
+      args:
+        creates: /swapfile
+
+    - name: Set swap file permissions
+      file:
+        path: /swapfile
+        mode: '0600'
+        owner: root
+        group: root
+      when: swap_status.stdout == ""
+
+    - name: Format swap file
+      command: mkswap /swapfile
+      when: swap_status.stdout == ""
+
+    - name: Enable swap
+      command: swapon /swapfile
+      when: swap_status.stdout == ""
+
+    - name: Make swap permanent in /etc/fstab
+      mount:
+        name: none
+        src: /swapfile
+        fstype: swap
+        opts: sw
+        state: present
+      when: swap_status.stdout == ""
+
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Configure Apache security headers
+      lineinfile:
+        path: /etc/apache2/apache2.conf
+        line: "{{ item }}"
+        state: present
+      loop:
+        - "ServerTokens Prod"
+        - "ServerSignature Off"
+
+    - name: Copy 000-default.conf
+      copy:
+        src: files/000-default.conf
+        dest: /etc/apache2/sites-available/000-default.conf
+        mode: '0644'
+        owner: root
+
+    - name: Enable 000-default.conf
+      file:
+        src: /etc/apache2/sites-available/000-default.conf
+        dest: /etc/apache2/sites-enabled/000-default.conf
+        state: link
+        owner: root
+        group: root
+
+    - name: Copy index.html to /var/www/html/index.html
+      copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+        mode: '0644'
+        owner: root
+        group: root
+
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - zip
+          - net-tools
+          - gpg
+          - gnupg2
+          - software-properties-common
+          - ca-certificates
+          - apt-transport-https
+          - lsb-release
+        state: present
+
+    - name: Add PHP repository
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+
+    - name: Install PHP and extensions
+      apt:
+        name:
+          - unzip
+          - php8.4
+          - php8.4-zip
+          - php8.4-xml
+          - php8.4-mysql
+          - php8.4-mbstring
+          - php8.4-gd
+          - php8.4-curl
+        state: present
+
+    - name: Update php.ini settings
+      lineinfile:
+        path: /etc/php/8.4/apache2/php.ini
+        regexp: '^{{ item.key }}\s*='
+        line: '{{ item.key }} = {{ item.value }}'
+        backup: yes
+      loop:
+        - { key: 'upload_max_filesize', value: '20M' }
+        - { key: 'post_max_size', value: '20M' }
+        - { key: 'expose_php', value: 'Off' }
+
+    - name: Pre-configure MySQL root password
+      debconf:
+        name: "mysql-server"
+        question: "mysql-server/root_password"
+        value: "{{ mysql_root_password }}"
+        vtype: "password"
+
+    - name: Confirm MySQL root password again
+      debconf:
+        name: "mysql-server"
+        question: "mysql-server/root_password_again"
+        value: "{{ mysql_root_password }}"
+        vtype: "password"
+
+    - name: Install MySQL packages
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Install Certbot
+      apt:
+        name:
+          - certbot
+          - python3-certbot-apache
+        state: present
+
+    - name: Install ssl-cert
+      apt:
+        name: ssl-cert
+        state: present
+
+    - name: Enable Apache modules (rewrite, ssl)
+      loop:
+        - rewrite
+        - ssl
+      command: "a2enmod {{ item }}"
+      args:
+        creates: "/etc/apache2/mods-enabled/{{ item }}.load"
+
+    - name: Generate snakeoil certificate only if missing
+      command: make-ssl-cert generate-default-snakeoil --force-overwrite
+      args:
+        creates: /etc/ssl/certs/ssl-cert-snakeoil.pem
+
+    - name: Install ACL (Required for Deployer)
+      apt:
+        name: acl
+        state: present
+
+    - name: Check if Composer is already installed
+      command: /usr/bin/composer --version
+      environment:
+        COMPOSER_ALLOW_SUPERUSER: "1" # To skip the warning prompt
+      register: composer_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Download Composer installer
+      get_url:
+        url: https://getcomposer.org/installer
+        dest: /tmp/composer-setup.php
+        mode: '0644'
+      when: composer_check.rc != 0
+
+    - name: Verify Composer installer SHA384 hash
+      shell: |
+        EXPECTED_HASH=$(curl -s https://composer.github.io/installer.sig)
+        ACTUAL_HASH=$(php -r "echo hash_file('SHA384', '/tmp/composer-setup.php');")
+        if [ "$EXPECTED_HASH" != "$ACTUAL_HASH" ]; then
+          echo "Invalid installer hash"
+          exit 1
+        fi
+      args:
+        executable: /bin/bash
+      when: composer_check.rc != 0
+
+    - name: Install Composer globally
+      shell: |
+        php /tmp/composer-setup.php --install-dir=/usr/bin --filename=composer
+      when: composer_check.rc != 0
+
+    - name: Ensure Apache is running
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Ensure MySQL is running
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Copy files/.my.cnf to /root/.my.cnf
+      copy:
+        src: files/.my.cnf
+        dest: /root/.my.cnf
+        mode: '0644'
+        owner: root
+        group: root
+
+    - name: Copy files/.my.cnf to /home/ubuntu/.my.cnf
+      copy:
+        src: files/.my.cnf
+        dest: /home/ubuntu/.my.cnf
+        mode: '0644'
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Ensure ServerName is set in apache2.conf (To avoid warning)
+      lineinfile:
+        path: /etc/apache2/apache2.conf
+        line: 'ServerName localhost'
+        state: present
+
+    - name: Copy all files in files/apache to /etc/apache2/sites-available/
+      copy:
+        src: files/apache/
+        dest: /etc/apache2/sites-available/
+        mode: '0644'
+        owner: root
+        group: root
+
+    - name: Run apache configtest
+      command: apachectl -t
+      register: apache_configtest
+      ignore_errors: yes  # Allow playbook to continue even if configtest fails
+
+    - name: Enable Apache sites if config is valid
+      command: "a2ensite {{ item }}"
+      loop: "{{ apache_sites }}"
+      when: apache_configtest.rc == 0
+
+    - name: Debug apache configtest output
+      debug:
+        var: apache_configtest.stdout
