@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management 1</title>
-
-    
+    <title>Asset Management</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body style="display:flex;align-items:center;justify-content:center;">
@@ -18,7 +16,7 @@
         text-align:center;
     ">
         <h1 style="color:#0080ff;margin-bottom:30px;">
-            Asset Management
+            Asset Management 1
         </h1>
 
         <a href="{{ route('login') }}" class="btn-submit">
