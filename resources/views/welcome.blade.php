@@ -1,34 +1,30 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Management</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-8 text-center">
-                <h1 class="display-1 fw-bold text-primary mb-4">Hello World</h1>
-                <p class="lead text-muted">Welcome to {{ config('app.name', 'Laravel') }}</p>
-            </div>
-        </div>
+<body style="display:flex;align-items:center;justify-content:center;">
+
+    <div style="
+        background:#fff;
+        padding:40px 60px;
+        border:1px solid #dee2e6;
+        border-radius:8px;
+        text-align:center;
+    ">
+        <h1 style="color:#0080ff;margin-bottom:30px;">
+            Asset Management
+        </h1>
+
+        <a href="{{ route('login') }}" class="btn-submit">
+            Login
+        </a>
     </div>
 
-    <!-- jQuery CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-
-    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            console.log('jQuery is loaded and working!');
-            console.log('Bootstrap 5 is ready!');
-        });
-    </script>
 </body>
 </html>
