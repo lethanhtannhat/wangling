@@ -6,11 +6,11 @@ return [
     | App Features Toggle
     |--------------------------------------------------------------------------
     */
-    'asset_list'   => env('FEATURE_ASSET_LIST', true),
-    'asset_create' => env('FEATURE_ASSET_CREATE', true),
-    'asset_sort'   => env('FEATURE_ASSET_SORT', true),
-    'asset_filter' => env('FEATURE_ASSET_FILTER', true),
-    'asset_edit'   => env('FEATURE_ASSET_EDIT', true),
-    'asset_delete' => env('FEATURE_ASSET_DELETE', true),
+    'asset_list'   => true,
+    'asset_create' => true,
+    'asset_sort'   => false,
+    'asset_filter' => false,
+    'asset_edit'   => true,
+    'asset_delete' => true,
 ];
 
