@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AssetListController;
-
+use App\Http\Controllers\AssetManagementController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,7 +20,24 @@ Route::middleware('auth')->group(function () {
             Route::get('/list', [AssetListController::class, 'index'])->name('list');
         });
     }
-    
+    // 3. Feature: Asset Management (Create)
+    if (config('features.asset_create')) {
+        Route::prefix('assets')->name('assets.')->group(function () {
+            Route::get('/create', [AssetManagementController::class, 'create'])->name('create');
+            Route::post('/', [AssetManagementController::class, 'store'])->name('store');
+            Route::get('/check-id', [AssetManagementController::class, 'checkId'])->name('check-id');
+        });
+    }
+    // 4. Feature: Asset Management (Edit/Delete)
+    Route::prefix('assets')->name('assets.')->group(function () {
+        if (config('features.asset_edit')) {
+            Route::put('/{asset}', [AssetManagementController::class, 'update'])->name('update');
+        }
+        if (config('features.asset_delete')) {
+            Route::delete('/{asset}', [AssetManagementController::class, 'destroy'])->name('destroy');
+        }
+    });
+
 });
 
 require __DIR__.'/auth.php';
