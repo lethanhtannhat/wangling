@@ -31,7 +31,6 @@ $(function () {
         format: "yyyy-mm-dd",
         autoclose: true,
         todayHighlight: true,
-        orientation: "bottom",
         container: "body"
     });
 
