@@ -58,7 +58,7 @@ $(function () {
             
             
             $('.dynamic-error').remove();
-            $('button[type="submit"]').prop('disabled', false);
+            $('#editForm button[type="submit"]').prop('disabled', false);
         } 
         
         else {
@@ -76,6 +76,7 @@ $(function () {
         const assetId = $(this).val();
         const currentId = $('#edit_id').val(); 
         const $input = $(this);
+        const $submitBtn = $('#editForm button[type="submit"]');
 
         if (assetId.length > 0) {
             $.ajax({
@@ -87,14 +88,14 @@ $(function () {
                 },
                 success: function (response) {
                     $input.removeClass('is-invalid');
-                    $('.dynamic-error').remove();
+                    $input.parent().find('.dynamic-error').remove();
 
                     if (response.exists) {
                         $input.addClass('is-invalid');
-                        $input.after('<div class="invalid-feedback dynamic-error">Asset ID has already existed.</div>');
-                        $('button[type="submit"]').prop('disabled', true);
+                        $input.after('<div class="invalid-feedback dynamic-error" style="display:block; color:red; font-size:0.8rem;">Asset ID has already existed.</div>');
+                        $submitBtn.prop('disabled', true);
                     } else {
-                        $('button[type="submit"]').prop('disabled', false); 
+                        $submitBtn.prop('disabled', false); 
                     }
                 }
             });
