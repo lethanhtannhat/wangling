@@ -57,7 +57,9 @@ class AssetManagementController extends Controller
 
     public function checkId(Request $request)
     {
-        $this->checkFeature('asset_create');
+        if (!config('features.asset_create') && !config('features.asset_edit')) {
+            abort(404);
+        }
         $assetId = $request->query('asset_id');
         $currentId = $request->query('current_id'); 
 

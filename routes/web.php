@@ -25,9 +25,14 @@ Route::middleware('auth')->group(function () {
         Route::prefix('assets')->name('assets.')->group(function () {
             Route::get('/create', [AssetManagementController::class, 'create'])->name('create');
             Route::post('/', [AssetManagementController::class, 'store'])->name('store');
-            Route::get('/check-id', [AssetManagementController::class, 'checkId'])->name('check-id');
         });
     }
+
+    // Check ID availability for both Create and Edit
+    if (config('features.asset_create') || config('features.asset_edit')) {
+        Route::get('assets/check-id', [AssetManagementController::class, 'checkId'])->name('assets.check-id');
+    }
+
     // 4. Feature: Asset Management (Edit/Delete)
     Route::prefix('assets')->name('assets.')->group(function () {
         if (config('features.asset_edit')) {
