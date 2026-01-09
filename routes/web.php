@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     // 4. Feature: Asset Management (Edit/Delete)
     Route::prefix('assets')->name('assets.')->group(function () {
         if (config('features.asset_edit')) {
+            Route::get('/{asset}/edit', [AssetManagementController::class, 'edit'])->name('edit');
             Route::put('/{asset}', [AssetManagementController::class, 'update'])->name('update');
         }
         if (config('features.asset_delete')) {
