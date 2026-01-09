@@ -48,22 +48,12 @@
                     @if(config('features.asset_edit') || config('features.asset_delete'))
                     <td>
                         @if(config('features.asset_edit'))
-                        <button
+                        <a
+                            href="{{ route('assets.edit', $asset->id) }}"
                             class="btn btn-sm btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editModal"
-                            data-id="{{ $asset->id }}"
-                            data-asset_id="{{ $asset->asset_id }}"
-                            data-device_model="{{ $asset->device_model }}"
-                            data-os="{{ $asset->os }}"
-                            data-chip="{{ $asset->chip }}"
-                            data-memory="{{ $asset->memory }}"
-                            data-storage="{{ $asset->storage }}"
-                            data-serial="{{ $asset->serial_number }}"
-                            data-date="{{ $asset->purchase_date }}"
                         >
                             Edit
-                        </button>
+                        </a>
                         @endif
 
                         @if(config('features.asset_delete'))

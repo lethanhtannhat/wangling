@@ -34,6 +34,12 @@ class AssetManagementController extends Controller
         return redirect($target)->with('success', 'Asset created successfully!');
     }
 
+    public function edit(Asset $asset)
+    {
+        $this->checkFeature('asset_edit');
+        return view('assets.edit', compact('asset'));
+    }
+
     public function update(UpdateAssetRequest $request, Asset $asset)
     {
         $this->checkFeature('asset_edit');
