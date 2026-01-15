@@ -22,7 +22,8 @@ class AssetManagementController extends Controller
     public function create()
     {
         $this->checkFeature('asset_create');
-        return view('assets.create');
+        $asset = new Asset();
+        return view('assets.form', compact('asset'));
     }
 
     public function store(StoreAssetRequest $request)
@@ -37,7 +38,7 @@ class AssetManagementController extends Controller
     public function edit(Asset $asset)
     {
         $this->checkFeature('asset_edit');
-        return view('assets.edit', compact('asset'));
+        return view('assets.form', compact('asset'));
     }
 
     public function update(UpdateAssetRequest $request, Asset $asset)
