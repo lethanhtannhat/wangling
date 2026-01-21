@@ -26,7 +26,10 @@ class UpdateAssetRequest extends FormRequest
             'chip' => 'required|string|max:255',
             'memory' => 'required|integer|min:0',
             'storage' => 'required|numeric|min:0',
-            'serial_number' => 'required|string|max:255',
+            'serial_number' => [
+                'required', 'string', 'max:255',
+                \Illuminate\Validation\Rule::unique('assets', 'serial_number')->ignore($this->route('asset')->id),
+            ],
             'purchase_date' => 'required|date',
         ];
     }

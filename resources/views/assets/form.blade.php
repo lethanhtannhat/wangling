@@ -67,7 +67,12 @@
                 <tr>
                     <td class="label-col">Serial Number</td>
                     <td class="input-col">
-                        <input type="text" name="serial_number" value="{{ old('serial_number', $asset->serial_number ?? '') }}" required>
+                        <input type="text" name="serial_number" id="serial_number" value="{{ old('serial_number', $asset->serial_number ?? '') }}" class="@error('serial_number') is-invalid @enderror" required>
+                        @error('serial_number')
+                            <div class="invalid-feedback" style="display:block; color:red; font-size:0.8rem;">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </td>
 
                     <td class="label-col">Purchase Date</td>
@@ -107,35 +112,48 @@ $(function () {
         container: "body"
     });
 
-    @php $checkIdRoute = Route::has('assets.check-id') ? route('assets.check-id') : null; @endphp
-    @if($checkIdRoute)
-    $('#asset_id').on('blur', function () {
-        const assetId = $(this).val();
+    @php $checkRoute = Route::has('assets.check-unique') ? route('assets.check-unique') : null; @endphp
+    @if($checkRoute)
+    function checkUniqueness($input, fieldName, label) {
+        const value = $input.val();
         const currentId = $('#asset_id_hidden').length ? $('#asset_id_hidden').val() : null;
-        const $input = $(this);
 
-        if (assetId.length > 0) {
+        if (value.length > 0) {
             $.ajax({
-                url: "{{ $checkIdRoute }}", 
+                url: "{{ $checkRoute }}", 
                 method: "GET",
                 data: { 
-                    asset_id: assetId,
+                    field: fieldName,
+                    value: value,
                     current_id: currentId
                 },
                 success: function (response) {
                     $input.removeClass('is-invalid');
-                    $('.dynamic-error').remove();
+                    $input.next('.dynamic-error').remove();
 
                     if (response.exists) {
                         $input.addClass('is-invalid');
-                        $input.after('<div class="invalid-feedback dynamic-error" style="display:block; color:red; font-size:0.8rem;">Asset ID has already existed.</div>');
-                        $('button[type="submit"]').prop('disabled', true);
+                        $input.after('<div class="invalid-feedback dynamic-error" style="display:block; color:red; font-size:0.8rem;">' + label + ' has already existed.</div>');
+                        updateSubmitButton();
                     } else {
-                        $('button[type="submit"]').prop('disabled', false); 
+                        updateSubmitButton();
                     }
                 }
             });
         }
+    }
+
+    function updateSubmitButton() {
+        const hasErrors = $('.is-invalid').length > 0;
+        $('button[type="submit"]').prop('disabled', hasErrors);
+    }
+
+    $('#asset_id').on('blur', function () {
+        checkUniqueness($(this), 'asset_id', 'Asset ID');
+    });
+
+    $('#serial_number').on('blur', function () {
+        checkUniqueness($(this), 'serial_number', 'Serial Number');
     });
     @endif
 });

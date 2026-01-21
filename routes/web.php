@@ -28,9 +28,9 @@ Route::middleware('auth')->group(function () {
         });
     }
 
-    // Check ID availability for both Create and Edit
+    // Check uniqueness for fields (Asset ID, Serial Number)
     if (config('features.asset_create') || config('features.asset_edit')) {
-        Route::get('assets/check-id', [AssetManagementController::class, 'checkId'])->name('assets.check-id');
+        Route::get('assets/check-unique', [AssetManagementController::class, 'checkUnique'])->name('assets.check-unique');
     }
 
     // 4. Feature: Asset Management (Edit/Delete)

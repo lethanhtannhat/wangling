@@ -62,15 +62,16 @@ class AssetManagementController extends Controller
         return redirect($target)->with('success', 'Asset deleted');
     }
 
-    public function checkId(Request $request)
+    public function checkUnique(Request $request)
     {
         if (!config('features.asset_create') && !config('features.asset_edit')) {
             abort(404);
         }
-        $assetId = $request->query('asset_id');
+        $field = $request->query('field', 'asset_id');
+        $value = $request->query('value');
         $currentId = $request->query('current_id'); 
 
-        $exists = Asset::where('asset_id', $assetId)
+        $exists = Asset::where($field, $value)
             ->when($currentId, function ($query) use ($currentId) {
                 return $query->where('id', '!=', $currentId);
             })

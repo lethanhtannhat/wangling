@@ -23,7 +23,7 @@ class StoreAssetRequest extends FormRequest
             'chip' => 'required|string|max:255',
             'memory' => 'required|integer|min:0',
             'storage' => 'required|numeric|min:0',
-            'serial_number' => 'required|string|max:255',
+            'serial_number' => 'required|string|max:255|unique:assets,serial_number',
             'purchase_date' => 'required|date',
         ];
     }
