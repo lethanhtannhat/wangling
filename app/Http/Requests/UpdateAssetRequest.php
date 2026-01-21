@@ -30,6 +30,7 @@ class UpdateAssetRequest extends FormRequest
                 'required', 'string', 'max:255',
                 \Illuminate\Validation\Rule::unique('assets', 'serial_number')->ignore($this->route('asset')->id),
             ],
+            'release_year' => 'required|integer|min:1900|max:' . (date('Y') + 10),
             'purchase_date' => 'required|date',
         ];
     }

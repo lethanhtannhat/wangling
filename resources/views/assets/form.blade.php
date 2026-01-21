@@ -75,10 +75,19 @@
                         @enderror
                     </td>
 
+                    <td class="label-col">Release Year</td>
+                    <td class="input-col">
+                        <input type="number" name="release_year" min="1900" max="{{ date('Y') + 10 }}" value="{{ old('release_year', $asset->release_year ?? '') }}" required>
+                    </td>
+                </tr>
+
+                <tr>
                     <td class="label-col">Purchase Date</td>
                     <td class="input-col">
                         <input type="text" name="purchase_date" id="purchaseDate" placeholder="yyyy-mm-dd" value="{{ old('purchase_date', $asset->purchase_date ?? '') }}" required>
                     </td>
+                    <td class="label-col"></td>
+                    <td class="input-col"></td>
                 </tr>
             </table>
 
