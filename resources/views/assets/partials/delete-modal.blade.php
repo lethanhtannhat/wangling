@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="modal-body">
-                    Are you sure you want to delete this asset?
+                    Are you sure you want to delete asset <strong id="asset-id-display"></strong>?
                 </div>
 
                 <div class="modal-footer">
