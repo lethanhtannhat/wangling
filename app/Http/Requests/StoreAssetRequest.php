@@ -24,6 +24,7 @@ class StoreAssetRequest extends FormRequest
             'memory' => 'required|integer|min:0',
             'storage' => 'required|numeric|min:0',
             'serial_number' => 'required|string|max:255|unique:assets,serial_number',
+            'release_year' => 'required|integer|min:1900|max:' . (date('Y') + 10),
             'purchase_date' => 'required|date',
         ];
     }

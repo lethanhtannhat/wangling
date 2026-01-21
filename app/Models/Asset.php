@@ -16,6 +16,7 @@ class Asset extends Model
         'memory',
         'storage',
         'serial_number',
+        'release_year',
         'purchase_date',
     ];
 
@@ -27,6 +28,7 @@ class Asset extends Model
         'memory', 
         'storage', 
         'serial_number', 
+        'release_year',
         'purchase_date', 
         'created_at'
     ];

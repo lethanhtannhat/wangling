@@ -12,6 +12,7 @@
                         <th><x-sort-link col="memory" label="Memory" /></th>
                         <th><x-sort-link col="storage" label="Storage" /></th>
                         <th><x-sort-link col="serial_number" label="Serial Number" /></th>
+                        <th><x-sort-link col="release_year" label="Release Year" /></th>
                         <th><x-sort-link col="purchase_date" label="Purchase Date" /></th>
                     @else
                         <th>Asset ID</th>
@@ -21,6 +22,7 @@
                         <th>Memory</th>
                         <th>Storage</th>
                         <th>Serial Number</th>
+                        <th>Release Year</th>
                         <th>Purchase Date</th>
                     @endif
 
@@ -44,6 +46,7 @@
                     <td>{{ $asset->memory }} GB</td>
                     <td>{{ $asset->storage }} GB</td>
                     <td>{{ $asset->serial_number }}</td>
+                    <td>{{ $asset->release_year }}</td>
                     <td>{{ \Carbon\Carbon::parse($asset->purchase_date)->format('Y-m-d') }}</td>
                     @if(config('features.asset_edit') || config('features.asset_delete'))
                     <td>

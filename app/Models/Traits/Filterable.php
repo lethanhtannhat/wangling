@@ -39,6 +39,11 @@ trait Filterable
             $query->where('serial_number', 'like', "%{$filters['serial_number']}%");
         }
 
+        // Release Year
+        if (!empty($filters['release_year'])) {
+            $query->where('release_year', $filters['release_year']);
+        }
+
         // Date Range
         if (!empty($filters['from_date'])) {
             $query->whereDate('purchase_date', '>=', $filters['from_date']);
