@@ -63,6 +63,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#deleteModal"
                                 data-id="{{ $asset->id }}"
+                                data-asset-id-str="{{ $asset->asset_id }}"
                             >
                                 Delete
                             </button>

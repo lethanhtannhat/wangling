@@ -39,8 +39,12 @@ $(function () {
 
    
     $('#deleteModal').on('show.bs.modal', function (event) {
-        const id = $(event.relatedTarget).data('id');
+        const button = $(event.relatedTarget);
+        const id = button.data('id');
+        const assetIdStr = button.data('asset-id-str');
+        
         $('#deleteForm').attr('action', '/assets/' + id);
+        $('#asset-id-display').text(assetIdStr);
     });
 
     
