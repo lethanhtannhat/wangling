@@ -47,25 +47,27 @@
                     <td>{{ \Carbon\Carbon::parse($asset->purchase_date)->format('Y-m-d') }}</td>
                     @if(config('features.asset_edit') || config('features.asset_delete'))
                     <td>
-                        @if(config('features.asset_edit'))
-                        <a
-                            href="{{ route('assets.edit', $asset->id) }}"
-                            class="btn btn-sm btn-primary"
-                        >
-                            Edit
-                        </a>
-                        @endif
+                        <div class="d-flex gap-1">
+                            @if(config('features.asset_edit'))
+                            <a
+                                href="{{ route('assets.edit', $asset->id) }}"
+                                class="btn btn-sm btn-primary"
+                            >
+                                Edit
+                            </a>
+                            @endif
 
-                        @if(config('features.asset_delete'))
-                        <button
-                            class="btn btn-sm btn-danger"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteModal"
-                            data-id="{{ $asset->id }}"
-                        >
-                            Delete
-                        </button>
-                        @endif
+                            @if(config('features.asset_delete'))
+                            <button
+                                class="btn btn-sm btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-id="{{ $asset->id }}"
+                            >
+                                Delete
+                            </button>
+                            @endif
+                        </div>
                     </td>
                     @endif
 
