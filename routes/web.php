@@ -28,6 +28,20 @@ Route::middleware('auth')->group(function () {
         });
     }
 
+    // 5. Feature: User/Employee Management
+    if (config('features.user_create') || config('features.user_list')) {
+        Route::prefix('users')->name('users.')->group(function () {
+            if (config('features.user_list')) {
+                Route::get('/list', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('list');
+            }
+            if (config('features.user_create')) {
+                Route::get('/create', [\App\Http\Controllers\EmployeeController::class, 'create'])->name('create');
+                Route::post('/', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('store');
+                Route::get('/check-unique', [\App\Http\Controllers\EmployeeController::class, 'checkUnique'])->name('check-unique');
+            }
+        });
+    }
+
     // Check uniqueness for fields (Asset ID, Serial Number)
     if (config('features.asset_create') || config('features.asset_edit')) {
         Route::get('assets/check-unique', [AssetManagementController::class, 'checkUnique'])->name('assets.check-unique');
