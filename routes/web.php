@@ -39,6 +39,13 @@ Route::middleware('auth')->group(function () {
                 Route::post('/', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('store');
                 Route::get('/check-unique', [\App\Http\Controllers\EmployeeController::class, 'checkUnique'])->name('check-unique');
             }
+            if (config('features.user_edit')) {
+                Route::get('/{employee}/edit', [\App\Http\Controllers\EmployeeController::class, 'edit'])->name('edit');
+                Route::put('/{employee}', [\App\Http\Controllers\EmployeeController::class, 'update'])->name('update');
+            }
+            if (config('features.user_delete')) {
+                Route::delete('/{employee}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('destroy');
+            }
         });
     }
 

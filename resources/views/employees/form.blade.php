@@ -1,50 +1,64 @@
 @extends('layouts.app')
 
-@section('title', 'Create User')
-@section('header', 'Create User')
+@php
+    $isEdit = isset($employee) && $employee->exists;
+    $title = $isEdit ? 'Edit User' : 'Create User';
+    $action = $isEdit ? route('users.update', $employee->id) : route('users.store');
+    $buttonText = $isEdit ? 'Update' : 'Create';
+@endphp
+
+@section('title', $title)
+@section('header', $title)
 
 @section('content')
 <div class="section">
     <div class="section-body">
-        <form method="POST" action="{{ route('users.store') }}">
+        <form method="POST" action="{{ $action }}">
             @csrf
+            @if($isEdit)
+                @method('PUT')
+            @endif
 
             <table>
                 <tr>
                     <td class="label-col">Department</td>
                     <td class="input-col">
-                        <input type="text" name="department" value="{{ old('department') }}">
+                        <input type="text" name="department" value="{{ old('department', $employee->department ?? '') }}">
                     </td>
 
                     <td class="label-col">Team</td>
                     <td class="input-col">
-                        <input type="text" name="team" value="{{ old('team') }}">
+                        <input type="text" name="team" value="{{ old('team', $employee->team ?? '') }}">
                     </td>
                 </tr>
 
                 <tr>
                     <td class="label-col">Name</td>
                     <td class="input-col">
-                        <input type="text" name="name" value="{{ old('name') }}" required>
+                        <input type="text" name="name" value="{{ old('name', $employee->name ?? '') }}" required>
                     </td>
 
                     <td class="label-col">Email</td>
                     <td class="input-col">
-                        <input type="email" name="email" value="{{ old('email') }}" required>
+                        <input type="email" name="email" value="{{ old('email', $employee->email ?? '') }}" required>
                     </td>
                 </tr>
 
                 <tr>
                     <td class="label-col">Laptop Asset ID</td>
                     <td class="input-col">
-                        <input type="text" name="asset_id" id="asset_id" value="{{ old('asset_id') }}"  >
+                        <input type="text" name="asset_id" id="asset_id" value="{{ old('asset_id', $employee->asset_id ?? '') }}"  >
                     </td>
                     <td class="label-col"></td>
                     <td class="input-col"></td>
                 </tr>
             </table>
 
-            <button type="submit" class="btn-submit mt-3">Create</button>
+            @if($isEdit)
+                <input type="hidden" id="user_id_hidden" value="{{ $employee->id }}">
+            @endif
+
+            <button type="submit" class="btn-submit mt-3">{{ $buttonText }}</button>
             
             @if ($errors->any())
                 <div class="alert alert-danger mt-3">
@@ -65,13 +79,16 @@
 $(function () {
     function checkUniqueness($input, fieldName, label) {
         const value = $input.val();
+        const currentId = $('#user_id_hidden').length ? $('#user_id_hidden').val() : null;
+
         if (value.length > 0) {
             $.ajax({
                 url: "{{ route('users.check-unique') }}",
                 method: "GET",
                 data: { 
                     field: fieldName,
-                    value: value
+                    value: value,
+                    current_id: currentId
                 },
                 success: function (response) {
                     $input.removeClass('is-invalid');

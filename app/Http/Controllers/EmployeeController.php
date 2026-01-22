@@ -19,8 +19,13 @@ class EmployeeController extends Controller
     {
         $field = $request->query('field', 'asset_id');
         $value = $request->query('value');
+        $currentId = $request->query('current_id');
         
-        $exists = Employee::where($field, $value)->exists();
+        $exists = Employee::where($field, $value)
+            ->when($currentId, function($query) use ($currentId) {
+                return $query->where('id', '!=', $currentId);
+            })
+            ->exists();
 
         return response()->json(['exists' => $exists]);
     }
@@ -35,7 +40,8 @@ class EmployeeController extends Controller
     public function create()
     {
         $this->checkFeature('user_create');
-        return view('employees.form');
+        $employee = new Employee();
+        return view('employees.form', compact('employee'));
     }
 
     public function store(Request $request)
@@ -52,6 +58,37 @@ class EmployeeController extends Controller
 
         Employee::create($validated);
 
-        return redirect()->route('dashboard')->with('success', 'User created successfully!');
+        return redirect()->route('users.list')->with('success', 'User created successfully!');
+    }
+
+    public function edit(Employee $employee)
+    {
+        $this->checkFeature('user_edit');
+        return view('employees.form', compact('employee'));
+    }
+
+    public function update(Request $request, Employee $employee)
+    {
+        $this->checkFeature('user_edit');
+        
+        $validated = $request->validate([
+            'department' => 'nullable|string|max:255',
+            'team' => 'nullable|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:employees,email,' . $employee->id,
+            'asset_id' => 'nullable|string|max:255|unique:employees,asset_id,' . $employee->id,
+        ]);
+
+        $employee->update($validated);
+
+        return redirect()->route('users.list')->with('success', 'User updated successfully!');
+    }
+
+    public function destroy(Employee $employee)
+    {
+        $this->checkFeature('user_delete');
+        $employee->delete();
+        
+        return redirect()->route('users.list')->with('success', 'User deleted successfully!');
     }
 }
