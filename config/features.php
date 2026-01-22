@@ -12,5 +12,7 @@ return [
     'asset_filter' => true,
     'asset_edit'   => true,
     'asset_delete' => true,
+    'user_create'  => true,
+    'user_list'    => true,
 ];
 

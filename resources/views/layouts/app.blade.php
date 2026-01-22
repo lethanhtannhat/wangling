@@ -35,6 +35,20 @@
             Asset List
         </a>
         @endif
+        
+        @if(config('features.user_create') && Route::has('users.create'))
+        <a href="{{ route('users.create') }}"
+           class="{{ request()->routeIs('users.create') ? 'active' : '' }}">
+            Create User
+        </a>
+        @endif
+
+        @if(config('features.user_list') && Route::has('users.list'))
+        <a href="{{ route('users.list') }}"
+           class="{{ request()->routeIs('users.list') ? 'active' : '' }}">
+            User List
+        </a>
+        @endif
 
 
         <form method="POST" action="{{ route('logout') }}" class="sidebar-logout">
