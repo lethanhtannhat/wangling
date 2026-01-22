@@ -10,7 +10,17 @@
         <table class="table mb-0">
             <thead>
                 <tr>
-                    <th>Department</th><th>Team</th><th>Name</th><th>Email</th><th>Asset ID</th><th>OS</th><th>Model</th>
+                    @if(config('features.user_sort'))
+                        <th><x-sort-link col="department" label="Department" /></th>
+                        <th><x-sort-link col="team" label="Team" /></th>
+                        <th><x-sort-link col="name" label="Name" /></th>
+                        <th><x-sort-link col="email" label="Email" /></th>
+                        <th><x-sort-link col="asset_id" label="Asset ID" /></th>
+                        <th><x-sort-link col="os" label="OS" /></th>
+                        <th><x-sort-link col="device_model" label="Model" /></th>
+                    @else
+                        <th>Department</th><th>Team</th><th>Name</th><th>Email</th><th>Asset ID</th><th>OS</th><th>Model</th>
+                    @endif
                     @if(config('features.user_edit') || config('features.user_delete'))
                         <th>Actions</th>
                     @endif

@@ -11,9 +11,20 @@ class EmployeeController extends Controller
 {
     use HandlesValidation;
 
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::with('asset')->get();
+        $query = Employee::with('asset');
+
+        // Handle sorting for columns from joined assets table
+        if (in_array($request->get('sort'), ['os', 'device_model'])) {
+            $query->leftJoin('assets', 'employees.asset_id', '=', 'assets.asset_id')
+                  ->select('employees.*') // Prevent column duplication
+                  ->orderBy('assets.' . $request->get('sort'), $request->get('order', 'desc'));
+        } else {
+            $query->sort($request);
+        }
+
+        $employees = $query->get();
         return view('employees.list', compact('employees'));
     }
 

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
+    use \App\Models\Traits\Sortable;
+
     protected $fillable = [
         'department',
         'team',
@@ -13,6 +15,8 @@ class Employee extends Model
         'email',
         'asset_id',
     ];
+
+    public $sortableColumns = ['department', 'team', 'name', 'email', 'asset_id', 'os', 'device_model', 'created_at'];
 
     public function asset()
     {
