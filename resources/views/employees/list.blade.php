@@ -10,13 +10,10 @@
         <table class="table mb-0">
             <thead>
                 <tr>
-                    <th>Department</th>
-                    <th>Team</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Laptop Asset ID</th>
-                    <th>Mac or Win</th>
-                    <th>Device Model</th>
+                    <th>Department</th><th>Team</th><th>Name</th><th>Email</th><th>Asset ID</th><th>OS</th><th>Model</th>
+                    @if(config('features.user_edit') || config('features.user_delete'))
+                        <th>Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -29,24 +26,31 @@
                     <td>{{ $employee->asset_id }}</td>
                     <td>
                         @if($employee->asset)
-                            <span class="os-badge {{ strtolower($employee->asset->os) }}">
-                                {{ $employee->asset->os }}
-                            </span>
-                        @else
-                            <span class="text-muted">-</span>
-                        @endif
+                            <span class="os-badge {{ strtolower($employee->asset->os) }}">{{ $employee->asset->os }}</span>
+                        @else - @endif
                     </td>
                     <td>{{ $employee->asset->device_model ?? '-' }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="text-center text-muted py-3">
-                        No users found
+                    <td>
+                        <div class="d-flex gap-1">
+                            @if(config('features.user_edit'))
+                                <a href="{{ route('users.edit', $employee->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                            @endif
+                            @if(config('features.user_delete'))
+                                <button class="btn btn-sm btn-danger" 
+                                        data-bs-toggle="modal" data-bs-target="#deleteModal" 
+                                        data-action-url="{{ route('users.destroy', $employee->id) }}" 
+                                        data-display-name="{{ $employee->name }}">Delete</button>
+                            @endif
+                        </div>
                     </td>
                 </tr>
+            @empty
+                <tr><td colspan="8" class="text-center py-3">No users found</td></tr>
             @endforelse
             </tbody>
         </table>
     </div>
 </div>
+
+<x-delete-modal id="deleteModal" title="Delete User" message="Are you sure you want to delete user" />
 @endsection

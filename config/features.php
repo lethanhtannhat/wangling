@@ -14,5 +14,7 @@ return [
     'asset_delete' => true,
     'user_create'  => true,
     'user_list'    => true,
+    'user_edit'    => true,
+    'user_delete'  => true,
 ];
 
