@@ -13,62 +13,32 @@
 @section('content')
 <div class="section">
     <div class="section-body">
-        <form method="POST" action="{{ $action }}">
+        <form method="POST" action="{{ $action }}" id="userForm">
             @csrf
-            @if($isEdit)
-                @method('PUT')
-            @endif
+            @if($isEdit) @method('PUT') @endif
 
             <table>
                 <tr>
                     <td class="label-col">Department</td>
-                    <td class="input-col">
-                        <input type="text" name="department" value="{{ old('department', $employee->department ?? '') }}">
-                    </td>
-
+                    <td class="input-col"><input type="text" name="department" value="{{ old('department', $employee->department) }}"></td>
                     <td class="label-col">Team</td>
-                    <td class="input-col">
-                        <input type="text" name="team" value="{{ old('team', $employee->team ?? '') }}">
-                    </td>
+                    <td class="input-col"><input type="text" name="team" value="{{ old('team', $employee->team) }}"></td>
                 </tr>
-
                 <tr>
                     <td class="label-col">Name</td>
-                    <td class="input-col">
-                        <input type="text" name="name" value="{{ old('name', $employee->name ?? '') }}" required>
-                    </td>
-
+                    <td class="input-col"><input type="text" name="name" value="{{ old('name', $employee->name) }}" required></td>
                     <td class="label-col">Email</td>
-                    <td class="input-col">
-                        <input type="email" name="email" value="{{ old('email', $employee->email ?? '') }}" required>
-                    </td>
+                    <td class="input-col"><input type="email" name="email" value="{{ old('email', $employee->email) }}" required></td>
                 </tr>
-
                 <tr>
                     <td class="label-col">Laptop Asset ID</td>
-                    <td class="input-col">
-                        <input type="text" name="asset_id" id="asset_id" value="{{ old('asset_id', $employee->asset_id ?? '') }}"  >
-                    </td>
-                    <td class="label-col"></td>
-                    <td class="input-col"></td>
+                    <td class="input-col"><input type="text" name="asset_id" id="asset_id" value="{{ old('asset_id', $employee->asset_id) }}"></td>
+                    <td class="label-col"></td><td class="input-col"></td>
                 </tr>
             </table>
 
-            @if($isEdit)
-                <input type="hidden" id="user_id_hidden" value="{{ $employee->id }}">
-            @endif
-
             <button type="submit" class="btn-submit mt-3">{{ $buttonText }}</button>
-            
-            @if ($errors->any())
-                <div class="alert alert-danger mt-3">
-                    <ul style="margin-bottom:0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <x-form-errors />
         </form>
     </div>
 </div>
@@ -77,46 +47,20 @@
 @section('scripts')
 <script>
 $(function () {
-    function checkUniqueness($input, fieldName, label) {
-        const value = $input.val();
-        const currentId = $('#user_id_hidden').length ? $('#user_id_hidden').val() : null;
-
-        if (value.length > 0) {
-            $.ajax({
-                url: "{{ route('users.check-unique') }}",
-                method: "GET",
-                data: { 
-                    field: fieldName,
-                    value: value,
-                    current_id: currentId
-                },
-                success: function (response) {
-                    $input.removeClass('is-invalid');
-                    $input.next('.dynamic-error').remove();
-
-                    if (response.exists) {
-                        $input.addClass('is-invalid');
-                        $input.after('<div class="invalid-feedback dynamic-error" style="display:block; color:red; font-size:0.8rem;">' + label + ' has already been assigned to another user.</div>');
-                        updateSubmitButton();
-                    } else {
-                        updateSubmitButton();
-                    }
-                }
-            });
-        }
-    }
-
-    function updateSubmitButton() {
-        const hasErrors = $('.is-invalid').length > 0;
-        $('button[type="submit"]').prop('disabled', hasErrors);
-    }
-
-    $('#asset_id').on('blur', function () {
-        checkUniqueness($(this), 'asset_id', 'Laptop Asset ID');
+    const currentId = "{{ $employee->id ?? '' }}";
+    setupRealtimeValidation({
+        inputSelector: '#asset_id',
+        checkUrl: "{{ route('users.check-unique') }}",
+        fieldName: 'asset_id',
+        label: 'Laptop Asset ID',
+        currentId: currentId
     });
-
-    $('input[name="email"]').on('blur', function () {
-        checkUniqueness($(this), 'email', 'Email');
+    setupRealtimeValidation({
+        inputSelector: 'input[name="email"]',
+        checkUrl: "{{ route('users.check-unique') }}",
+        fieldName: 'email',
+        label: 'Email',
+        currentId: currentId
     });
 });
 </script>
