@@ -31,7 +31,9 @@ class EmployeeController extends Controller
     public function create()
     {
         $employee = new Employee();
-        return view('employees.form', compact('employee'));
+        $assignedAssetIds = Employee::whereNotNull('asset_id')->pluck('asset_id')->toArray();
+        $assets = Asset::whereNotIn('asset_id', $assignedAssetIds)->orderBy('asset_id')->get();
+        return view('employees.form', compact('employee', 'assets'));
     }
 
     public function store(Request $request)
@@ -50,7 +52,12 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee)
     {
-        return view('employees.form', compact('employee'));
+        $assignedAssetIds = Employee::whereNotNull('asset_id')
+            ->where('asset_id', '!=', $employee->asset_id)
+            ->pluck('asset_id')
+            ->toArray();
+        $assets = Asset::whereNotIn('asset_id', $assignedAssetIds)->orderBy('asset_id')->get();
+        return view('employees.form', compact('employee', 'assets'));
     }
 
     public function update(Request $request, Employee $employee)

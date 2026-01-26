@@ -32,7 +32,17 @@
                 </tr>
                 <tr>
                     <td class="label-col">Laptop Asset ID</td>
-                    <td class="input-col"><input type="text" name="asset_id" id="asset_id" value="{{ old('asset_id', $employee->asset_id) }}"></td>
+                    <td class="input-col">
+                        <select name="asset_id" id="asset_id" class="form-control">
+                            <option value="">-- Select Asset ID --</option>
+                            @foreach($assets as $asset)
+                                <option value="{{ $asset->asset_id }}" 
+                                    {{ old('asset_id', $employee->asset_id) == $asset->asset_id ? 'selected' : '' }}>
+                                    {{ $asset->asset_id }} ({{ $asset->device_model }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
                     <td class="label-col"></td><td class="input-col"></td>
                 </tr>
             </table>
