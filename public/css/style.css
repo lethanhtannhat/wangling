@@ -17,6 +17,7 @@ body {
   flex-direction: column;
   height: 100vh;
 }
+
 .sidebar .logo {
   font-weight: 700;
   font-size: 17px;
@@ -24,6 +25,7 @@ body {
   padding: 0 20px 20px;
   border-bottom: 1px solid #ddd;
 }
+
 .sidebar a {
   display: block;
   padding: 10px 20px;
@@ -32,9 +34,11 @@ body {
   font-weight: 500;
   transition: 0.2s;
 }
-.sidebar a + a {
+
+.sidebar a+a {
   border-top: 1px solid #f1f1f1;
 }
+
 .sidebar a:hover,
 .sidebar a.active {
   color: #000000;
@@ -52,9 +56,9 @@ body {
   font-weight: 600;
   font-size: 18px;
 
-  position: sticky;   
-  top: 0;             
-  z-index: 1000;      
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 /* Main */
@@ -64,6 +68,7 @@ body {
   flex-direction: column;
   overflow-y: auto;
 }
+
 .main-content {
   padding: 25px 50px;
 }
@@ -75,6 +80,7 @@ body {
   border-radius: 6px;
   margin-bottom: 25px;
 }
+
 .section-header {
   background-color: #0080ff;
   color: white;
@@ -85,6 +91,7 @@ body {
   font-size: 15px;
 
 }
+
 .section-body {
   padding: 15px;
 }
@@ -94,11 +101,14 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-td, th {
-  border: 1px solid #e9ecef;
+
+td,
+th {
+  border: 1px solid #dee2e6;
   padding: 8px 10px;
   vertical-align: middle;
 }
+
 td.label-col {
   background: #f9f9f9;
   font-weight: 500;
@@ -106,13 +116,16 @@ td.label-col {
   color: #333;
   text-align: right;
 }
+
 td.input-col {
   background: #ffffff;
   width: 25%;
 }
+
 .column-gray {
   background-color: #f2f2f2 !important;
 }
+
 input,
 select {
   width: 100%;
@@ -121,6 +134,7 @@ select {
   padding: 5px 8px;
   font-size: 14px;
 }
+
 input:focus,
 select:focus {
   border-color: #0080ff;
@@ -141,6 +155,7 @@ select:focus {
   transition: 0.2s;
   text-align: center;
 }
+
 .btn-submit:hover {
   background-color: #0080ff;
 }
@@ -160,19 +175,28 @@ select:focus {
   color: white;
   font-weight: 500;
 }
-.os-badge.win { background-color: #0080ff; }
-.os-badge.mac { background-color: #6f42c1; }
+
+.os-badge.win {
+  background-color: #0080ff;
+}
+
+.os-badge.mac {
+  background-color: #6f42c1;
+}
+
 .datepicker {
   z-index: 9999 !important;
 }
+
 .header-right {
   display: flex;
-  align-items: center;   
+  align-items: center;
   gap: 15px;
   height: auto;
 }
+
 .sidebar-logout {
-  margin-top: auto;          
+  margin-top: auto;
   padding: 10px 20px;
   border-top: 1px solid #f1f1f1;
 }
