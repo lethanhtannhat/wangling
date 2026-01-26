@@ -20,9 +20,9 @@
             <table>
                 <tr>
                     <td class="label-col">Department</td>
-                    <td class="input-col"><input type="text" name="department" value="{{ old('department', $employee->department) }}"></td>
+                    <td class="input-col"><input type="text" name="department" value="{{ old('department', $employee->department) }}" required></td>
                     <td class="label-col">Team</td>
-                    <td class="input-col"><input type="text" name="team" value="{{ old('team', $employee->team) }}"></td>
+                    <td class="input-col"><input type="text" name="team" value="{{ old('team', $employee->team) }}" required></td>
                 </tr>
                 <tr>
                     <td class="label-col">Name</td>

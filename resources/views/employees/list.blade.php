@@ -16,10 +16,10 @@
                         <th><x-sort-link col="name" label="Name" /></th>
                         <th><x-sort-link col="email" label="Email" /></th>
                         <th><x-sort-link col="asset_id" label="Asset ID" /></th>
-                        <th><x-sort-link col="os" label="OS" /></th>
-                        <th><x-sort-link col="device_model" label="Model" /></th>
+                        <th class="column-gray"><x-sort-link col="os" label="OS" /></th>
+                        <th class="column-gray"><x-sort-link col="device_model" label="Model" /></th>
                     @else
-                        <th>Department</th><th>Team</th><th>Name</th><th>Email</th><th>Asset ID</th><th>OS</th><th>Model</th>
+                        <th>Department</th><th>Team</th><th>Name</th><th>Email</th><th>Asset ID</th><th class="column-gray">OS</th><th class="column-gray">Model</th>
                     @endif
                     @if(config('features.user_edit') || config('features.user_delete'))
                         <th>Actions</th>
@@ -34,12 +34,12 @@
                     <td>{{ $employee->name }}</td>
                     <td>{{ $employee->email }}</td>
                     <td>{{ $employee->asset_id }}</td>
-                    <td>
+                    <td class="column-gray">
                         @if($employee->asset)
                             <span class="os-badge {{ strtolower($employee->asset->os) }}">{{ $employee->asset->os }}</span>
                         @else - @endif
                     </td>
-                    <td>{{ $employee->asset->device_model ?? '-' }}</td>
+                    <td class="column-gray">{{ $employee->asset->device_model ?? '-' }}</td>
                     <td>
                         <div class="d-flex gap-1">
                             @if(config('features.user_edit'))

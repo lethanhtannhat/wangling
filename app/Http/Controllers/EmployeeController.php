@@ -39,8 +39,8 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'department' => 'nullable|string|max:255',
-            'team' => 'nullable|string|max:255',
+            'department' => 'required|string|max:255',
+            'team' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:employees,email',
             'asset_id' => 'nullable|string|max:255|unique:employees,asset_id',
@@ -63,8 +63,8 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $validated = $request->validate([
-            'department' => 'nullable|string|max:255',
-            'team' => 'nullable|string|max:255',
+            'department' => 'required|string|max:255',
+            'team' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:employees,email,' . $employee->id,
             'asset_id' => 'nullable|string|max:255|unique:employees,asset_id,' . $employee->id,
