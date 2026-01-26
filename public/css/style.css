@@ -110,6 +110,9 @@ td.input-col {
   background: #ffffff;
   width: 25%;
 }
+.column-gray {
+  background-color: #f2f2f2 !important;
+}
 input,
 select {
   width: 100%;
