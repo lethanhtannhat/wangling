@@ -15,13 +15,20 @@ class EmployeeController extends Controller
     {
         $query = Employee::with('asset');
 
-        // Handle sorting for columns from joined assets table
-        if (in_array($request->get('sort'), ['os', 'device_model'])) {
-            $query->leftJoin('assets', 'employees.asset_id', '=', 'assets.asset_id')
-                  ->select('employees.*') // Prevent column duplication
-                  ->orderBy('assets.' . $request->get('sort'), $request->get('order', 'desc'));
+        $sort = $request->get('sort');
+
+        if ($sort) {
+            // Handle sorting for columns from joined assets table
+            if (in_array($sort, ['os', 'device_model'])) {
+                $query->leftJoin('assets', 'employees.asset_id', '=', 'assets.asset_id')
+                      ->select('employees.*') // Prevent column duplication
+                      ->orderBy('assets.' . $sort, $request->get('order', 'desc'));
+            } else {
+                $query->sort($request);
+            }
         } else {
-            $query->sort($request);
+            // Default sort by department and team
+            $query->orderBy('department', 'asc')->orderBy('team', 'asc');
         }
 
         $employees = $query->get();
