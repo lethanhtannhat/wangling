@@ -33,7 +33,7 @@
                     <td>{{ $employee->team }}</td>
                     <td>{{ $employee->name }}</td>
                     <td>{{ $employee->email }}</td>
-                    <td>{{ $employee->asset_id }}</td>
+                    <td>{{ $employee->asset_id ?? 'N/A' }}</td>
                     <td class="column-gray">
                         @if($employee->asset)
                             <span class="os-badge {{ strtolower($employee->asset->os) }}">{{ $employee->asset->os }}</span>

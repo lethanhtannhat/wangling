@@ -38,6 +38,10 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->asset_id === 'N/A') {
+            $request->merge(['asset_id' => null]);
+        }
+
         $validated = $request->validate([
             'department' => 'required|string|max:255',
             'team' => 'required|string|max:255',
@@ -62,6 +66,10 @@ class EmployeeController extends Controller
 
     public function update(Request $request, Employee $employee)
     {
+        if ($request->asset_id === 'N/A') {
+            $request->merge(['asset_id' => null]);
+        }
+
         $validated = $request->validate([
             'department' => 'required|string|max:255',
             'team' => 'required|string|max:255',
