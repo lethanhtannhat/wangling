@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [AssetManagementController::class, 'create'])
             ->middleware('feature:asset_create')->name('create');
             
-        Route::post('/', [AssetManagementController::class, 'store'])
+        Route::post('/create', [AssetManagementController::class, 'store'])
             ->middleware('feature:asset_create')->name('store');
             
         Route::get('/check-unique', [AssetManagementController::class, 'checkUnique'])
@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [EmployeeController::class, 'create'])
             ->middleware('feature:user_create')->name('create');
             
-        Route::post('/', [EmployeeController::class, 'store'])
+        Route::post('/create', [EmployeeController::class, 'store'])
             ->middleware('feature:user_create')->name('store');
             
         Route::get('/check-unique', [EmployeeController::class, 'checkUnique'])
