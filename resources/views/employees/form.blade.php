@@ -34,7 +34,7 @@
                     <td class="label-col">Laptop Asset ID</td>
                     <td class="input-col">
                         <select name="asset_id" id="asset_id" class="form-control" required>
-                            <option value="N/A" {{ in_array(old('asset_id', $employee->asset_id), ['N/A', '', null]) ? 'selected' : '' }}>N/A</option>
+                            <option value="">-- Select Asset ID --</option>
                             @foreach($assets as $asset)
                                 <option value="{{ $asset->asset_id }}" 
                                     {{ old('asset_id', $employee->asset_id) == $asset->asset_id ? 'selected' : '' }}>

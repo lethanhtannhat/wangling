@@ -45,16 +45,12 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->asset_id === 'N/A') {
-            $request->merge(['asset_id' => null]);
-        }
-
         $validated = $request->validate([
             'department' => 'required|string|max:255',
             'team' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:employees,email',
-            'asset_id' => 'nullable|string|max:255|unique:employees,asset_id',
+            'asset_id' => 'required|string|max:255|unique:employees,asset_id',
         ]);
 
         Employee::create($validated);
@@ -73,16 +69,12 @@ class EmployeeController extends Controller
 
     public function update(Request $request, Employee $employee)
     {
-        if ($request->asset_id === 'N/A') {
-            $request->merge(['asset_id' => null]);
-        }
-
         $validated = $request->validate([
             'department' => 'required|string|max:255',
             'team' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:employees,email,' . $employee->id,
-            'asset_id' => 'nullable|string|max:255|unique:employees,asset_id,' . $employee->id,
+            'asset_id' => 'required|string|max:255|unique:employees,asset_id,' . $employee->id,
         ]);
 
         $employee->update($validated);
