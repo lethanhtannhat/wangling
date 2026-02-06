@@ -33,13 +33,11 @@
                     <td>{{ $employee->team }}</td>
                     <td>{{ $employee->name }}</td>
                     <td>{{ $employee->email }}</td>
-                    <td>{{ $employee->asset_id ?? 'N/A' }}</td>
+                    <td>{{ $employee->asset_id }}</td>
                     <td class="column-gray">
-                        @if($employee->asset)
-                            <span class="os-badge {{ strtolower($employee->asset->os) }}">{{ $employee->asset->os }}</span>
-                        @else - @endif
+                        <span class="os-badge {{ strtolower($employee->asset->os ?? 'unknown') }}">{{ $employee->asset->os ?? 'Unknown' }}</span>
                     </td>
-                    <td class="column-gray">{{ $employee->asset->device_model ?? '-' }}</td>
+                    <td class="column-gray">{{ $employee->asset->device_model ?? 'Deleted Asset' }}</td>
                     <td>
                         <div class="d-flex gap-1">
                             @if(config('features.user_edit'))

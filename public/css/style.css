@@ -127,18 +127,22 @@ td.input-col {
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   border: 1px solid #ced4da;
   border-radius: 4px;
   padding: 5px 8px;
   font-size: 14px;
+  font-family: inherit;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   border-color: #0080ff;
   box-shadow: 0 0 0 0.15rem rgba(0, 128, 255, 0.25);
+  outline: none;
 }
 
 /* Button */
