@@ -17,5 +17,10 @@ return [
     'user_edit'    => true,
     'user_delete'  => true,
     'user_sort'    => true,
+    'stock_list'   => true,
+    'stock_create' => true,
+    'stock_edit'   => true,
+    'stock_delete' => true,
+    'stock_sort'   => true,
 ];
 

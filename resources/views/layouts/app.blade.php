@@ -51,6 +51,20 @@
         </a>
         @endif
 
+        @if(config('features.stock_create') && Route::has('stocks.create'))
+        <a href="{{ route('stocks.create') }}"
+           class="{{ request()->routeIs('stocks.create') ? 'active' : '' }}">
+            Create Stock
+        </a>
+        @endif
+
+        @if(config('features.stock_list') && Route::has('stocks.list'))
+        <a href="{{ route('stocks.list') }}"
+           class="{{ request()->routeIs('stocks.list') ? 'active' : '' }}">
+            Stock List
+        </a>
+        @endif
+
 
         <form method="POST" action="{{ route('logout') }}" class="sidebar-logout">
         @csrf
