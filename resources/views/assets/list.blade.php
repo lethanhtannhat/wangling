@@ -22,21 +22,14 @@
                             <th style="{{ $headerStyle }}"><x-sort-link col="asset_id" label="Asset ID" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="os" label="Mac or Win" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="device_model" label="Device Model" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="os_version" label="OS" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="encryption_status" label="FileVault/BitLocker" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="user_type" label="User Type" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="admin_password_status" label="Admin Pass" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="account_status" label="Apple ID/MS" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="speedometer_score" label="Speedometer" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="novabench_score" label="Novabench" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="serial_number" label="Serial Number" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="chip" label="Chip" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="memory" label="Memory" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="storage" label="Storage" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="release_year" label="Year" /></th>
-                            <th style="{{ $headerStyle }}"><x-sort-link col="purchase_date" label="Date" /></th>
+                            <th style="{{ $headerStyle }}"><x-sort-link col="release_year" label="Release Year" /></th>
+                            <th style="{{ $headerStyle }}"><x-sort-link col="purchase_date" label="Purchase Date" /></th>
                         @else
-                            <th style="{{ $headerStyle }}">Asset ID</th><th style="{{ $headerStyle }}">Mac/Win</th><th style="{{ $headerStyle }}">Model</th><th style="{{ $headerStyle }}">OS</th><th style="{{ $headerStyle }}">Encryption</th><th style="{{ $headerStyle }}">User Type</th><th style="{{ $headerStyle }}">Admin Pass</th><th style="{{ $headerStyle }}">Account</th><th style="{{ $headerStyle }}">Speedo</th><th style="{{ $headerStyle }}">Nova</th><th style="{{ $headerStyle }}">Serial</th><th style="{{ $headerStyle }}">Chip</th><th style="{{ $headerStyle }}">Mem</th><th style="{{ $headerStyle }}">Disk</th><th style="{{ $headerStyle }}">Year</th><th style="{{ $headerStyle }}">Date</th>
+                            <th style="{{ $headerStyle }}">Asset ID</th><th style="{{ $headerStyle }}">Mac/Win</th><th style="{{ $headerStyle }}">Model</th><th style="{{ $headerStyle }}">Serial</th><th style="{{ $headerStyle }}">Chip</th><th style="{{ $headerStyle }}">Mem</th><th style="{{ $headerStyle }}">Disk</th><th style="{{ $headerStyle }}">Release Year</th><th style="{{ $headerStyle }}">Purchase Date</th>
                         @endif
                         @if(config('features.asset_edit') || config('features.asset_delete'))
                             <th style="{{ $headerStyle }}">Actions</th>
@@ -52,29 +45,6 @@
                         <td style="{{ $cellStyle }}">{{ $asset->asset_id }}</td>
                         <td style="{{ $cellStyle }}" class="text-center"><span class="os-badge {{ strtolower($asset->os) }}">{{ $asset->os }}</span></td>
                         <td style="{{ $cellStyle }}">{{ $asset->device_model }}</td>
-                        <td style="{{ $cellStyle }}">{{ $asset->os_version }}</td>
-                        <td style="{{ $cellStyle }}" class="text-center">
-                            @if($asset->encryption_status == 'On')
-                                <span class="badge bg-success">On</span>
-                            @elseif($asset->encryption_status == 'Off')
-                                <span class="badge bg-danger">Off</span>
-                            @else
-                                {{ $asset->encryption_status }}
-                            @endif
-                        </td>
-                        <td style="{{ $cellStyle }}">{{ $asset->user_type }}</td>
-                        <td style="{{ $cellStyle }}" class="text-center">
-                            @if($asset->admin_password_status == 'Ok')
-                                <span class="badge bg-success">Ok</span>
-                            @elseif($asset->admin_password_status == 'Not yet')
-                                <span class="badge bg-warning text-dark">Not yet</span>
-                            @else
-                                {{ $asset->admin_password_status }}
-                            @endif
-                        </td>
-                        <td style="{{ $cellStyle }}">{{ $asset->account_status }}</td>
-                        <td style="{{ $cellStyle }}">{{ $asset->speedometer_score }}</td>
-                        <td style="{{ $cellStyle }}">{{ $asset->novabench_score }}</td>
                         <td style="{{ $cellStyle }}">{{ $asset->serial_number }}</td>
                         <td style="{{ $cellStyle }}">{{ $asset->chip }}</td>
                         <td style="{{ $cellStyle }}">{{ $asset->memory }} GB</td>
@@ -96,7 +66,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="17" class="text-center py-3">No assets found</td></tr>
+                    <tr><td colspan="10" class="text-center py-3">No assets found</td></tr>
                 @endforelse
                 </tbody>
             </table>

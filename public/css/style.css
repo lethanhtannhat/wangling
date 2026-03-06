@@ -126,6 +126,10 @@ td.input-col {
   background-color: #f2f2f2 !important;
 }
 
+.column-tech {
+  background-color: #eef7ff !important;
+}
+
 input,
 select,
 textarea {

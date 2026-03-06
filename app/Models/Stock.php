@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Stock extends Model
 {
     use \App\Models\Traits\Sortable;
 
     protected $fillable = [
-        'department',
-        'team',
         'name',
-        'email',
+        'department',
         'asset_id',
+        'previous_user',
         'os_version',
         'encryption_status',
         'user_type',
@@ -24,11 +23,10 @@ class Employee extends Model
     ];
 
     public $sortableColumns = [
-        'department', 'team', 'name', 'email', 'asset_id', 
+        'name', 'department', 'asset_id', 'created_at',
         'os_version', 'encryption_status', 'user_type', 
         'admin_password_status', 'account_status', 
-        'speedometer_score', 'novabench_score',
-        'created_at'
+        'speedometer_score', 'novabench_score'
     ];
 
     public function asset()

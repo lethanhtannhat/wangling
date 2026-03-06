@@ -16,7 +16,7 @@
         text-align:center;
     ">
         <h1 style="color:#0080ff;margin-bottom:30px;">
-            Asset Management 1
+            Asset Management
         </h1>
 
         <a href="{{ route('login') }}" class="btn-submit">
