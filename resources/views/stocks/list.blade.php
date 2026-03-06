@@ -5,6 +5,7 @@
 
 @section('content')
 <div class="section">
+    <div class="section-header">Stock List</div>
     <div class="section-body">
         <div class="table-responsive" style="overflow-x: auto;">
             <table class="table table-bordered table-sm">
