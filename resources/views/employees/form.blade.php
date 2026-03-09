@@ -88,8 +88,8 @@
                 <tr>
                     <td class="label-col">Speedometer 3.1</td>
                     <td class="input-col"><input type="number" name="speedometer_score" step="0.1" value="{{ old('speedometer_score', $employee->speedometer_score) }}"></td>
-                    <td class="label-col">Novabench Score</td>
-                    <td class="input-col"><input type="number" name="novabench_score" step="1" value="{{ old('novabench_score', $employee->novabench_score) }}"></td>
+                    <td class="label-col">Note</td>
+                    <td class="input-col"><input type="text" name="notes" value="{{ old('notes', $employee->notes) }}"></td>
                 </tr>
             </table>
 

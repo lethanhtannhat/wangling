@@ -59,7 +59,7 @@ class EmployeeController extends Controller
             'admin_password_status' => 'nullable|string|max:255',
             'account_status' => 'nullable|string|max:255',
             'speedometer_score' => 'nullable|numeric|min:0',
-            'novabench_score' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string',
         ]);
 
         Employee::create($validated);
@@ -94,7 +94,7 @@ class EmployeeController extends Controller
             'admin_password_status' => 'nullable|string|max:255',
             'account_status' => 'nullable|string|max:255',
             'speedometer_score' => 'nullable|numeric|min:0',
-            'novabench_score' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string',
         ]);
 
         $employee->update($validated);

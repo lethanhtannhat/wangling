@@ -19,14 +19,14 @@ class Stock extends Model
         'admin_password_status',
         'account_status',
         'speedometer_score',
-        'novabench_score',
+        'notes',
     ];
 
     public $sortableColumns = [
         'name', 'department', 'asset_id', 'created_at',
         'os_version', 'encryption_status', 'user_type', 
         'admin_password_status', 'account_status', 
-        'speedometer_score', 'novabench_score'
+        'speedometer_score', 'notes'
     ];
 
     public function asset()

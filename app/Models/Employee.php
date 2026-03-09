@@ -20,14 +20,14 @@ class Employee extends Model
         'admin_password_status',
         'account_status',
         'speedometer_score',
-        'novabench_score',
+        'notes',
     ];
 
     public $sortableColumns = [
         'department', 'team', 'name', 'email', 'asset_id', 
         'os_version', 'encryption_status', 'user_type', 
         'admin_password_status', 'account_status', 
-        'speedometer_score', 'novabench_score',
+        'speedometer_score', 'notes',
         'created_at'
     ];
 

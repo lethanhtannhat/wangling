@@ -30,6 +30,7 @@ class Asset extends Model
         'serial_number', 
         'release_year',
         'purchase_date', 
+        'notes',
         'created_at'
     ];
 }

@@ -68,6 +68,11 @@
                         <input type="text" name="previous_user" value="{{ old('previous_user', $stock->previous_user) }}">
                     </td>
                 </tr>
+                <tr>
+                    <td class="label-col">Note</td>
+                    <td class="input-col"><input type="text" name="notes" value="{{ old('notes', $stock->notes) }}"></td>
+                    <td class="label-col"></td><td class="input-col"></td>
+                </tr>
             </table>
 
             <button type="submit" class="btn-submit mt-3">{{ $buttonText }}</button>
