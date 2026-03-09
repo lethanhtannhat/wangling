@@ -4,12 +4,22 @@
 @section('header', 'Asset List')
 
 @section('content')
+<style>
+    .text-truncate-note {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: help;
+    }
+</style>
+
 @if(config('features.asset_filter'))
     @include('assets.partials.filter')
 @endif
 
 <div class="section">
-    <div class="section-header">Asset List</div>
+    <div class="section-header">Asset List (Total: {{ $assets->count() }})</div>
     <div class="section-body p-0">
         <div class="table-responsive" style="overflow-x: auto; border: 1px solid #dee2e6; border-radius: 4px;">
             <table class="table mb-0" style="width: auto; min-width: 100%; border-collapse: separate; border-spacing: 0;">
@@ -52,7 +62,15 @@
                         <td style="{{ $cellStyle }}">{{ $asset->storage }} GB</td>
                         <td style="{{ $cellStyle }}">{{ $asset->release_year }}</td>
                         <td style="{{ $cellStyle }}">{{ \Carbon\Carbon::parse($asset->purchase_date)->format('Y-m-d') }}</td>
-                        <td style="{{ $cellStyle }}">{{ $asset->notes ?? '-' }}</td>
+                        <td style="{{ $cellStyle }}">
+                            @if($asset->notes)
+                                <div class="text-truncate-note" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $asset->notes }}">
+                                    {{ $asset->notes }}
+                                </div>
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td style="{{ $cellStyle }}">
                             <div class="d-flex gap-1">
                                 @if(config('features.asset_edit'))
@@ -83,6 +101,12 @@
 <script>
 $(function () {
     $("#fromDate, #toDate").datepicker({ format: "yyyy-mm-dd", autoclose: true, todayHighlight: true });
+    
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 });
 </script>
 @endsection

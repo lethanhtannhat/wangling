@@ -4,8 +4,18 @@
 @section('header', 'Stock List')
 
 @section('content')
+<style>
+    .text-truncate-note {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: help;
+    }
+</style>
+
 <div class="section">
-    <div class="section-header">Stock List</div>
+    <div class="section-header">Stock List (Total: {{ $stocks->count() }})</div>
     <div class="section-body">
         <div class="table-responsive" style="overflow-x: auto;">
             <table class="table table-bordered table-sm">
@@ -78,7 +88,15 @@
                         </td>
                         <td style="{{ $cellStyle }}" class="column-tech">{{ $stock->speedometer_score ?? '-' }}</td>
                         <td style="{{ $cellStyle }}">{{ $stock->previous_user ?? '-' }}</td>
-                        <td style="{{ $cellStyle }}">{{ $stock->notes ?? '-' }}</td>
+                        <td style="{{ $cellStyle }}">
+                            @if($stock->notes)
+                                <div class="text-truncate-note" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $stock->notes }}">
+                                    {{ $stock->notes }}
+                                </div>
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td style="{{ $cellStyle }}">
                             <div class="d-flex gap-1">
                                 @if(config('features.stock_edit'))
@@ -103,4 +121,15 @@
 </div>
 
 <x-delete-modal id="deleteModal" title="Delete Stock Item" message="Are you sure you want to delete this stock item?" />
+@endsection
+@section('scripts')
+<script>
+$(function () {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+});
+</script>
 @endsection

@@ -4,8 +4,18 @@
 @section('header', 'User List')
 
 @section('content')
+<style>
+    .text-truncate-note {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: help;
+    }
+</style>
+
 <div class="section">
-    <div class="section-header">User List</div>
+    <div class="section-header">User List (Total: {{ $employees->count() }})</div>
     <div class="section-body p-0">
         <div class="table-responsive" style="overflow-x: auto; border: 1px solid #dee2e6; border-radius: 4px;">
             <table class="table mb-0" style="width: auto; min-width: 100%; border-collapse: separate; border-spacing: 0;">
@@ -74,7 +84,15 @@
                         </td>
                         <td style="{{ $cellStyle }}" class="column-tech">{{ $employee->account_status ?? '-' }}</td>
                         <td style="{{ $cellStyle }}" class="column-tech">{{ $employee->speedometer_score ?? '-' }}</td>
-                        <td style="{{ $cellStyle }}">{{ $employee->notes ?? '-' }}</td>
+                        <td style="{{ $cellStyle }}">
+                            @if($employee->notes)
+                                <div class="text-truncate-note" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $employee->notes }}">
+                                    {{ $employee->notes }}
+                                </div>
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td style="{{ $cellStyle }}">
                             <div class="d-flex gap-1">
                                 @if(config('features.user_edit'))
@@ -99,4 +117,15 @@
 </div>
 
 <x-delete-modal id="deleteModal" title="Delete User" message="Are you sure you want to delete user" />
+@endsection
+@section('scripts')
+<script>
+$(function () {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+});
+</script>
 @endsection
