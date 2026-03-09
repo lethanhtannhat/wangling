@@ -60,6 +60,7 @@ class StockController extends Controller
             'encryption_status' => 'nullable|string|max:255',
             'admin_password_status' => 'nullable|string|max:255',
             'speedometer_score' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string',
         ]);
 
         Stock::create($validated);
@@ -92,6 +93,7 @@ class StockController extends Controller
             'encryption_status' => 'nullable|string|max:255',
             'admin_password_status' => 'nullable|string|max:255',
             'speedometer_score' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string',
         ]);
 
         $stock->update($validated);

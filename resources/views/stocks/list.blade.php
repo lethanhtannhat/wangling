@@ -25,6 +25,7 @@
                             <th style="{{ $headerStyle }}" class="column-tech"><x-sort-link col="admin_password_status" label="Admin Pass" /></th>
                             <th style="{{ $headerStyle }}" class="column-tech"><x-sort-link col="speedometer_score" label="Speedometer" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="previous_user" label="Previous User" /></th>
+                            <th style="{{ $headerStyle }}"><x-sort-link col="notes" label="Note" /></th>
                         @else
                             <th style="{{ $headerStyle }}">Name</th>
                             <th style="{{ $headerStyle }}">Department</th>
@@ -36,6 +37,7 @@
                             <th style="{{ $headerStyle }}" class="column-tech">Admin Pass</th>
                             <th style="{{ $headerStyle }}" class="column-tech">Speedo</th>
                             <th style="{{ $headerStyle }}">Previous User</th>
+                            <th style="{{ $headerStyle }}">Note</th>
                         @endif
                         @if(config('features.stock_edit') || config('features.stock_delete'))
                             <th style="{{ $headerStyle }}">Actions</th>
@@ -76,6 +78,7 @@
                         </td>
                         <td style="{{ $cellStyle }}" class="column-tech">{{ $stock->speedometer_score ?? '-' }}</td>
                         <td style="{{ $cellStyle }}">{{ $stock->previous_user ?? '-' }}</td>
+                        <td style="{{ $cellStyle }}">{{ $stock->notes ?? '-' }}</td>
                         <td style="{{ $cellStyle }}">
                             <div class="d-flex gap-1">
                                 @if(config('features.stock_edit'))
@@ -91,7 +94,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="12" class="text-center py-3">No stock items found</td></tr>
+                    <tr><td colspan="13" class="text-center py-3">No stock items found</td></tr>
                 @endforelse
                 </tbody>
             </table>

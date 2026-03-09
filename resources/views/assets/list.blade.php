@@ -28,8 +28,9 @@
                             <th style="{{ $headerStyle }}"><x-sort-link col="storage" label="Storage" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="release_year" label="Release Year" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="purchase_date" label="Purchase Date" /></th>
+                            <th style="{{ $headerStyle }}"><x-sort-link col="notes" label="Note" /></th>
                         @else
-                            <th style="{{ $headerStyle }}">Asset ID</th><th style="{{ $headerStyle }}">Mac/Win</th><th style="{{ $headerStyle }}">Model</th><th style="{{ $headerStyle }}">Serial</th><th style="{{ $headerStyle }}">Chip</th><th style="{{ $headerStyle }}">Mem</th><th style="{{ $headerStyle }}">Disk</th><th style="{{ $headerStyle }}">Release Year</th><th style="{{ $headerStyle }}">Purchase Date</th>
+                            <th style="{{ $headerStyle }}">Asset ID</th><th style="{{ $headerStyle }}">Mac/Win</th><th style="{{ $headerStyle }}">Model</th><th style="{{ $headerStyle }}">Serial</th><th style="{{ $headerStyle }}">Chip</th><th style="{{ $headerStyle }}">Mem</th><th style="{{ $headerStyle }}">Disk</th><th style="{{ $headerStyle }}">Release Year</th><th style="{{ $headerStyle }}">Purchase Date</th><th style="{{ $headerStyle }}">Note</th>
                         @endif
                         @if(config('features.asset_edit') || config('features.asset_delete'))
                             <th style="{{ $headerStyle }}">Actions</th>
@@ -51,6 +52,7 @@
                         <td style="{{ $cellStyle }}">{{ $asset->storage }} GB</td>
                         <td style="{{ $cellStyle }}">{{ $asset->release_year }}</td>
                         <td style="{{ $cellStyle }}">{{ \Carbon\Carbon::parse($asset->purchase_date)->format('Y-m-d') }}</td>
+                        <td style="{{ $cellStyle }}">{{ $asset->notes ?? '-' }}</td>
                         <td style="{{ $cellStyle }}">
                             <div class="d-flex gap-1">
                                 @if(config('features.asset_edit'))
@@ -66,7 +68,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="10" class="text-center py-3">No assets found</td></tr>
+                    <tr><td colspan="11" class="text-center py-3">No assets found</td></tr>
                 @endforelse
                 </tbody>
             </table>

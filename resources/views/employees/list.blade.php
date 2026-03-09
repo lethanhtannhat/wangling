@@ -28,9 +28,9 @@
                             <th style="{{ $headerStyle }}" class="column-tech"><x-sort-link col="admin_password_status" label="Admin Pass" /></th>
                             <th style="{{ $headerStyle }}" class="column-tech"><x-sort-link col="account_status" label="Apple ID/MS" /></th>
                             <th style="{{ $headerStyle }}" class="column-tech"><x-sort-link col="speedometer_score" label="Speedometer" /></th>
-                            <th style="{{ $headerStyle }}" class="column-tech"><x-sort-link col="novabench_score" label="Novabench" /></th>
+                            <th style="{{ $headerStyle }}" class="column-tech"><x-sort-link col="notes" label="Note" /></th>
                         @else
-                            <th style="{{ $headerStyle }}">Dept</th><th style="{{ $headerStyle }}">Team</th><th style="{{ $headerStyle }}">Name</th><th style="{{ $headerStyle }}">Email</th><th style="{{ $headerStyle }}">Asset ID</th><th style="{{ $headerStyle }}" class="column-gray">Mac/Win</th><th style="{{ $headerStyle }}" class="column-gray">Model</th><th style="{{ $headerStyle }}" class="column-tech">OS</th><th style="{{ $headerStyle }}" class="column-tech">Encryption</th><th style="{{ $headerStyle }}" class="column-tech">User Type</th><th style="{{ $headerStyle }}" class="column-tech">Admin Pass</th><th style="{{ $headerStyle }}" class="column-tech">Account</th><th style="{{ $headerStyle }}" class="column-tech">Speedo</th><th style="{{ $headerStyle }}" class="column-tech">Nova</th>
+                            <th style="{{ $headerStyle }}">Dept</th><th style="{{ $headerStyle }}">Team</th><th style="{{ $headerStyle }}">Name</th><th style="{{ $headerStyle }}">Email</th><th style="{{ $headerStyle }}">Asset ID</th><th style="{{ $headerStyle }}" class="column-gray">Mac/Win</th><th style="{{ $headerStyle }}" class="column-gray">Model</th><th style="{{ $headerStyle }}" class="column-tech">OS</th><th style="{{ $headerStyle }}" class="column-tech">Encryption</th><th style="{{ $headerStyle }}" class="column-tech">User Type</th><th style="{{ $headerStyle }}" class="column-tech">Admin Pass</th><th style="{{ $headerStyle }}" class="column-tech">Account</th><th style="{{ $headerStyle }}" class="column-tech">Speedo</th><th style="{{ $headerStyle }}">Note</th>
                         @endif
                         @if(config('features.user_edit') || config('features.user_delete'))
                             <th style="{{ $headerStyle }}">Actions</th>
@@ -74,7 +74,7 @@
                         </td>
                         <td style="{{ $cellStyle }}" class="column-tech">{{ $employee->account_status ?? '-' }}</td>
                         <td style="{{ $cellStyle }}" class="column-tech">{{ $employee->speedometer_score ?? '-' }}</td>
-                        <td style="{{ $cellStyle }}" class="column-tech">{{ $employee->novabench_score ?? '-' }}</td>
+                        <td style="{{ $cellStyle }}">{{ $employee->notes ?? '-' }}</td>
                         <td style="{{ $cellStyle }}">
                             <div class="d-flex gap-1">
                                 @if(config('features.user_edit'))
