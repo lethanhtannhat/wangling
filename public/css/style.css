@@ -149,6 +149,14 @@ textarea:focus {
   outline: none;
 }
 
+textarea.auto-expand {
+  resize: none;
+  overflow: hidden;
+  min-height: 34px;
+  line-height: 1.5;
+  display: block;
+}
+
 /* Button */
 .btn-submit {
   display: block;

@@ -13,6 +13,7 @@ class Employee extends Model
         'team',
         'name',
         'email',
+        'google_2fa_status',
         'asset_id',
         'os_version',
         'encryption_status',
@@ -24,8 +25,8 @@ class Employee extends Model
     ];
 
     public $sortableColumns = [
-        'department', 'team', 'name', 'email', 'asset_id', 
-        'os_version', 'encryption_status', 'user_type', 
+        'department', 'team', 'name', 'email', 'google_2fa_status',
+        'asset_id', 'os_version', 'encryption_status', 'user_type', 
         'admin_password_status', 'account_status', 
         'speedometer_score', 'notes',
         'created_at'

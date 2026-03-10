@@ -14,6 +14,8 @@
     }
 </style>
 
+@include('stocks.partials.filter')
+
 <div class="section">
     <div class="section-header">Stock List (Total: {{ $stocks->count() }})</div>
     <div class="section-body">

@@ -22,5 +22,6 @@ return [
     'stock_edit'   => true,
     'stock_delete' => true,
     'stock_sort'   => true,
+    'google_2fa'   => true,
 ];
 

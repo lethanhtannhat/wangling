@@ -14,6 +14,8 @@
     }
 </style>
 
+@include('employees.partials.filter')
+
 <div class="section">
     <div class="section-header">User List (Total: {{ $employees->count() }})</div>
     <div class="section-body p-0">
@@ -29,6 +31,7 @@
                             <th style="{{ $headerStyle }}"><x-sort-link col="team" label="Team" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="name" label="Name" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="email" label="Email" /></th>
+                            <th style="{{ $headerStyle }}"><x-sort-link col="google_2fa_status" label="Google 2FA" /></th>
                             <th style="{{ $headerStyle }}"><x-sort-link col="asset_id" label="Asset ID" /></th>
                             <th style="{{ $headerStyle }}" class="column-gray"><x-sort-link col="os" label="Mac/Win" /></th>
                             <th style="{{ $headerStyle }}" class="column-gray"><x-sort-link col="device_model" label="Model" /></th>
@@ -57,6 +60,15 @@
                         <td style="{{ $cellStyle }}">{{ $employee->team }}</td>
                         <td style="{{ $cellStyle }}">{{ $employee->name }}</td>
                         <td style="{{ $cellStyle }}">{{ $employee->email }}</td>
+                        <td style="{{ $cellStyle }}" class="text-center">
+                            @if($employee->google_2fa_status == 'True')
+                                <span class="badge bg-success">True</span>
+                            @elseif($employee->google_2fa_status == 'False')
+                                <span class="badge bg-danger">False</span>
+                            @else
+                                {{ $employee->google_2fa_status ?? '-' }}
+                            @endif
+                        </td>
                         <td style="{{ $cellStyle }}">{{ $employee->asset_id }}</td>
                         <td style="{{ $cellStyle }}" class="column-gray">
                             <span class="os-badge {{ strtolower($employee->asset->os ?? 'unknown') }}">{{ $employee->asset->os ?? 'Unknown' }}</span>

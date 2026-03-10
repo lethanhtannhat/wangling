@@ -15,6 +15,18 @@ class EmployeeController extends Controller
     {
         $query = Employee::with('asset');
 
+        // 1. Filtering
+        if ($request->filled('department')) {
+            $query->where('department', $request->department);
+        }
+
+        if ($request->filled('os')) {
+            $query->whereHas('asset', function($q) use ($request) {
+                $q->where('os', $request->os);
+            });
+        }
+
+        // 2. Sorting
         $sort = $request->get('sort');
 
         if ($sort) {
@@ -31,7 +43,9 @@ class EmployeeController extends Controller
         }
 
         $employees = $query->get();
-        return view('employees.list', compact('employees'));
+        $departments = Employee::distinct()->pluck('department')->filter()->sort();
+
+        return view('employees.list', compact('employees', 'departments'));
     }
 
     public function create()

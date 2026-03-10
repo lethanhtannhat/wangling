@@ -70,7 +70,7 @@
                 </tr>
                 <tr>
                     <td class="label-col">Note</td>
-                    <td class="input-col"><input type="text" name="notes" value="{{ old('notes', $stock->notes) }}"></td>
+                    <td class="input-col"><textarea name="notes" class="auto-expand">{{ old('notes', $stock->notes) }}</textarea></td>
                     <td class="label-col"></td><td class="input-col"></td>
                 </tr>
             </table>

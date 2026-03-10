@@ -1,10 +1,10 @@
 /**
  * Real-time uniqueness validation
  */
-window.setupRealtimeValidation = function(options) {
+window.setupRealtimeValidation = function (options) {
     const { inputSelector, checkUrl, fieldName, label, currentId } = options;
 
-    $(inputSelector).on('blur', function() {
+    $(inputSelector).on('blur', function () {
         const $input = $(this);
         const value = $input.val();
 
@@ -12,12 +12,12 @@ window.setupRealtimeValidation = function(options) {
             $.ajax({
                 url: checkUrl,
                 method: "GET",
-                data: { 
+                data: {
                     field: fieldName,
                     value: value,
                     current_id: currentId
                 },
-                success: function(response) {
+                success: function (response) {
                     $input.removeClass('is-invalid');
                     $input.next('.dynamic-error').remove();
 
@@ -40,3 +40,16 @@ window.setupRealtimeValidation = function(options) {
         $form.find('button[type="submit"]').prop('disabled', hasErrors);
     }
 };
+
+/**
+ * Auto-expand textarea
+ */
+$(document).on('input', 'textarea.auto-expand', function () {
+    this.style.height = 'inherit';
+    this.style.height = this.scrollHeight + 'px';
+});
+
+// Initial trigger for edit forms
+$(function () {
+    $('textarea.auto-expand').trigger('input');
+});

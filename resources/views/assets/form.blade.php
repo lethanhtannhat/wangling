@@ -52,7 +52,7 @@
                     <td class="label-col">Purchase Date</td>
                     <td class="input-col"><input type="text" name="purchase_date" id="purchaseDate" placeholder="yyyy-mm-dd" value="{{ old('purchase_date', $asset->purchase_date) }}" required></td>
                     <td class="label-col">Note</td>
-                    <td class="input-col"><input type="text" name="notes" value="{{ old('notes', $asset->notes) }}"></td>
+                    <td class="input-col"><textarea name="notes" class="auto-expand">{{ old('notes', $asset->notes) }}</textarea></td>
                 </tr>
             </table>
 

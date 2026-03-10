@@ -89,6 +89,12 @@ Route::middleware('auth')->group(function () {
             ->middleware('feature:stock_delete')->name('destroy');
     });
 
+    // 5. Feature: Google 2FA
+    Route::prefix('google2fa')->name('google2fa.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Google2FAController::class, 'index'])->name('index');
+        Route::post('/upload', [App\Http\Controllers\Google2FAController::class, 'upload'])->name('upload');
+    });
+
 });
 
 require __DIR__.'/auth.php';

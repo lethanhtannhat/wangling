@@ -65,6 +65,13 @@
         </a>
         @endif
 
+        @if(config('features.google_2fa'))
+        <a href="{{ route('google2fa.index') }}"
+           class="{{ request()->routeIs('google2fa.index') ? 'active' : '' }}">
+            2FA for Google
+        </a>
+        @endif
+
 
         <form method="POST" action="{{ route('logout') }}" class="sidebar-logout">
         @csrf

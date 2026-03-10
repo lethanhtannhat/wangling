@@ -16,6 +16,18 @@ class StockController extends Controller
     {
         $query = Stock::with('asset');
 
+        // 1. Filtering
+        if ($request->filled('department')) {
+            $query->where('department', $request->department);
+        }
+
+        if ($request->filled('os')) {
+            $query->whereHas('asset', function($q) use ($request) {
+                $q->where('os', $request->os);
+            });
+        }
+
+        // 2. Sorting
         $sort = $request->get('sort');
 
         if ($sort) {
@@ -33,7 +45,9 @@ class StockController extends Controller
         }
 
         $stocks = $query->get();
-        return view('stocks.list', compact('stocks'));
+        $departments = Stock::distinct()->whereNotNull('department')->pluck('department')->filter()->sort();
+
+        return view('stocks.list', compact('stocks', 'departments'));
     }
 
     public function create()
